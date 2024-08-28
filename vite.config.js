@@ -1,4 +1,4 @@
-import { spawn } from "child_process";
+import { spawn, execSync } from "child_process";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
@@ -31,32 +31,33 @@ function rescriptPlugin() {
       command = resolvedConfig.command;
     },
     buildStart: async function () {
-      const args = command === "build" ? ["rescript"] : ["rescript", "-w"];
-      rescriptProcressRef = spawn("bunx", args);
-      logger.info(`Spawned bunx ${args.join(" ")}`);
+      if (command === "build") {
+        logger.info(execSync("bunx rescript").toString().trim());
+      } else {
+        rescriptProcressRef = spawn("bunx", ["rescript", "-w"]);
+        logger.info(`Spawned bunx ${args.join(" ")}`);
 
-      // Process standard output
-      rescriptProcressRef.stdout.on("data", (data) => {
-        logger.info(data.toString().trim());
-      });
+        // Process standard output
+        rescriptProcressRef.stdout.on("data", (data) => {
+          logger.info(data.toString().trim());
+        });
 
-      // Process standard error
-      rescriptProcressRef.stderr.on("data", (data) => {
-        logger.error(data.toString().trim());
-      });
+        // Process standard error
+        rescriptProcressRef.stderr.on("data", (data) => {
+          logger.error(data.toString().trim());
+        });
 
-      // Handle process exit
-      rescriptProcressRef.on("close", (code) => {
-        console.log(`ReScript process exited with code ${code || 0}`);
-      });
+        // Handle process exit
+        rescriptProcressRef.on("close", (code) => {
+          console.log(`ReScript process exited with code ${code || 0}`);
+        });
+      }
     },
     buildEnd: async function () {
       if (rescriptProcressRef && !rescriptProcressRef.killed) {
         const pid = rescriptProcressRef.pid;
         rescriptProcressRef.kill("SIGKILL"); // Default signal is SIGTERM
         logger.info(`ReScript process with PID: ${pid} has been killed`);
-      } else {
-        logger.info("ReScript process is already killed or does not exist.");
       }
     },
   };
