@@ -71,4 +71,5 @@ export default defineConfig({
     }),
     rescriptPlugin(),
   ],
+  base: "/html-forms/",
 });
