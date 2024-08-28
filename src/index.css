@@ -1,0 +1,190 @@
+:root {
+  --spacing-50: 4px;
+  --spacing-100: 8px;
+  --spacing-200: 12px;
+  --spacing-300: 16px;
+  --spacing-400: 24px;
+  --spacing-500: 32px;
+  --spacing-600: 48px;
+  --spacing-700: 64px;
+  --spacing-800: 96px;
+  --spacing-900: 128px;
+  --spacing-950: 192px;
+
+  --font-50: 12px;
+  --font-100: 14px;
+  --font-200: 16px;
+  --font-300: 18px;
+  --font-400: 20px;
+  --font-500: 24px;
+  --font-600: 30px;
+  --font-700: 36px;
+  --font-800: 48px;
+  --font-900: 60px;
+  --font-950: 72px;
+
+  --line-height: 1.5;
+  --heading-line-height: 1.25;
+  --radius: 4px;
+
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --primary-50: #fbfdfe;
+  --primary-100: #f4f8fb;
+  --primary-200: #e9f1f7;
+  --primary-300: #dde9f3;
+  --primary-400: #d2e2ef;
+  --primary-500: #c8dceb;
+  --primary-600: #87b2d4;
+  --primary-700: #488abc;
+  --primary-800: #2e5c7f;
+  --primary-900: #172e40;
+  --primary-950: #0c1822;
+
+  --dark-50: #f6f6f6;
+  --dark-100: #e7e7e7;
+  --dark-200: #d1d1d1;
+  --dark-300: #b0b0b0;
+  --dark-400: #888888;
+  --dark-500: #6d6d6d;
+  --dark-600: #5d5d5d;
+  --dark-700: #4f4f4f;
+  --dark-800: #454545;
+  --dark-900: #333333;
+  --dark-950: #262626;
+
+  --white: white;
+  --danger: #d24d57;
+  --danger-hover: #e18a91;
+  --danger-border: #a82a34;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+body {
+  padding: var(--spacing-800);
+  font-family: var(--font);
+  background-color: #efeff0;
+}
+
+h1 {
+    margin-bottom: var(--spacing-400);
+}
+
+form {
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+
+    & button {
+        align-self: flex-end;
+    }
+}
+
+code {
+  margin-block: var(--spacing-400);
+  display: block;
+}
+
+/* Styles to copy */
+.form-control {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+
+    & label {
+        font-size: var(--font-200);
+        font-weight: 600;
+    }
+
+    & input {
+        border: 1px solid var(--dark-200);
+        font-size: var(--font-200);
+        padding: var(--spacing-100) var(--spacing-200);
+        border-radius: var(--radius);
+
+        &:focus {
+           outline-color: var(--primary-700); 
+        }
+    }
+
+    /* toggle checkbox */
+    & label:has(input[type=checkbox]) {
+      --width: 60px;
+      --height: 30px;
+      --offset: 4px;
+      --speed: 166ms;
+      width: var(--width);
+      height: var(--height);
+      position: relative;
+      border-radius: calc(var(--width) / 4);
+      cursor: pointer;
+      transition: var(--speed) all;
+
+      &:has(input:checked) {
+        background-color: var(--primary-700);
+
+        & span {
+          left:  calc(var(--width) - var(--height) + var(--offset));
+        }
+      }
+
+      &:not(:has(input:checked)) {
+        background-color: var(--dark-200);
+      }
+
+      & span {
+        width: calc(var(--height) - var(--offset) - var(--offset));
+        height: calc(var(--height) - var(--offset) - var(--offset));
+        top: var(--offset);
+        left: var(--offset);
+        position: absolute;
+        border-radius: 50%;
+        background-color: var(--white);
+        transition: var(--speed) all;
+      }
+
+      & input {
+        width: 100%;
+        height: 100%;
+        display: block;
+        opacity: 0;
+        cursor: pointer;
+      }
+    }
+}
+
+button {
+    padding: var(--spacing-100) var(--spacing-200);
+    background-color: var(--dark-50);
+    border-radius: var(--radius);
+    border: none;
+    outline: 2px solid var(--dark-300);
+    cursor: pointer;
+
+    &:focus {
+        outline: 2px solid var(--primary-700); 
+    }
+
+    &:hover {
+        background-color: var(--dark-100);
+    }
+
+    &[type='submit'] {
+        background-color: var(--primary-800);
+        color: var(--white);
+        outline-color: var(--primary-300);
+    }
+}
+/* End copyable */
