@@ -15,16 +15,11 @@ function make(props) {
         let onChange = match.onChange;
         let match$1 = props.formValue;
         let type_;
-        switch (match$1.TAG) {
-          case "Text" :
-              let type_$1 = match$1.type_;
-              type_ = type_$1 !== undefined ? type_$1 : "text";
-              break;
-          case "Int" :
-          case "Boolean" :
-              type_ = "text";
-              break;
-          
+        if (match$1.TAG === "Text") {
+          let type_$1 = match$1.type_;
+          type_ = type_$1 !== undefined ? type_$1 : "text";
+        } else {
+          type_ = "text";
         }
         let newrecord = Caml_obj.obj_dup(inputProps);
         tmp = JsxRuntime.jsx("input", (newrecord.onChange = (function (ev) {
@@ -55,6 +50,32 @@ function make(props) {
             }),
             JsxRuntime.jsx("span", {})
           ]
+        });
+        break;
+    case "Choice" :
+        let onChange$3 = match.onChange;
+        let value = match.value;
+        let onChange$4 = function (ev) {
+          let target = ev.target;
+          if (target.checked) {
+            return onChange$3(target.value);
+          }
+          
+        };
+        tmp = JsxRuntime.jsx("div", {
+          children: match.items.map(function (param, idx) {
+            let v = param.value;
+            let id = props.id + "-" + idx.toString();
+            let newrecord = Caml_obj.obj_dup(inputProps);
+            return JsxRuntime.jsxs("label", {
+              children: [
+                param.label,
+                JsxRuntime.jsx("input", (newrecord.onChange = onChange$4, newrecord.value = v, newrecord.type = "radio", newrecord.name = props.id, newrecord.checked = value === v, newrecord.id = id, newrecord))
+              ],
+              htmlFor: id
+            }, id);
+          }),
+          className: "choice"
         });
         break;
     

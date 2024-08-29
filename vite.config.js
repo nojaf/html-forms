@@ -35,7 +35,7 @@ function rescriptPlugin() {
         logger.info(execSync("bunx rescript").toString().trim());
       } else {
         rescriptProcressRef = spawn("bunx", ["rescript", "-w"]);
-        logger.info(`Spawned bunx ${args.join(" ")}`);
+        logger.info(`Spawned bunx rescript -w`);
 
         // Process standard output
         rescriptProcressRef.stdout.on("data", (data) => {

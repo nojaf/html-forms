@@ -5,13 +5,26 @@ import * as FormControl from "./FormControl.res.mjs";
 import * as Core__Option from "@rescript/core/src/Core__Option.res.mjs";
 import * as JsxRuntime from "react/jsx-runtime";
 
+function tryParseRace(v, fallback) {
+  if ("TenMiles" === v) {
+    return "TenMiles";
+  } else if ("EightKm" === v) {
+    return "EightKm";
+  } else if ("Walking" === v) {
+    return "Walking";
+  } else {
+    return fallback;
+  }
+}
+
 function App(props) {
   let match = React.useState(function () {
     return {
       name: "",
       birthYear: 1990,
       password: "",
-      alive: true
+      breakfast: true,
+      race: "TenMiles"
     };
   });
   let setData = match[1];
@@ -23,7 +36,7 @@ function App(props) {
   return JsxRuntime.jsxs("div", {
     children: [
       JsxRuntime.jsx("h1", {
-        children: "Yozora"
+        children: "HTML Forms"
       }),
       JsxRuntime.jsxs("form", {
         children: [
@@ -41,7 +54,8 @@ function App(props) {
                     name: v,
                     birthYear: d.birthYear,
                     password: d.password,
-                    alive: d.alive
+                    breakfast: d.breakfast,
+                    race: d.race
                   };
                 });
               })
@@ -63,7 +77,8 @@ function App(props) {
                     name: d.name,
                     birthYear: v,
                     password: d.password,
-                    alive: d.alive
+                    breakfast: d.breakfast,
+                    race: d.race
                   };
                 });
               })
@@ -74,20 +89,54 @@ function App(props) {
           JsxRuntime.jsx(FormControl.FormControl.make, {
             formValue: {
               TAG: "Boolean",
-              value: data.alive,
+              value: data.breakfast,
               onChange: (function (v) {
                 setData(function (d) {
                   return {
                     name: d.name,
                     birthYear: d.birthYear,
                     password: d.password,
-                    alive: v
+                    breakfast: v,
+                    race: d.race
                   };
                 });
               })
             },
             id: "alive",
-            labelText: "Are you alive?"
+            labelText: "Do you want breakfast?"
+          }),
+          JsxRuntime.jsx(FormControl.FormControl.make, {
+            formValue: {
+              TAG: "Choice",
+              value: data.race,
+              items: [
+                {
+                  value: "TenMiles",
+                  label: "Ten Miles"
+                },
+                {
+                  value: "EightKm",
+                  label: "Eight km"
+                },
+                {
+                  value: "Walking",
+                  label: "Wandelen"
+                }
+              ],
+              onChange: (function (r) {
+                setData(function (d) {
+                  return {
+                    name: d.name,
+                    birthYear: d.birthYear,
+                    password: d.password,
+                    breakfast: d.breakfast,
+                    race: tryParseRace(r, data.race)
+                  };
+                });
+              })
+            },
+            id: "race",
+            labelText: "Wedstrijd"
           }),
           JsxRuntime.jsx("button", {
             children: "Submit",

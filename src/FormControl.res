@@ -1,7 +1,13 @@
+type choiceItem = {
+  value: string,
+  label: string,
+}
+
 type formValue =
   | Text({value: string, type_?: string, onChange: string => unit})
   | Int({value: int, onChange: int => unit})
   | Boolean({value: bool, onChange: bool => unit})
+  | Choice({value: string, items: array<choiceItem>, onChange: string => unit})
 
 // TODO: memoize
 module FormControl = {
@@ -49,14 +55,45 @@ module FormControl = {
             target["value"]->Int.fromString->Option.forEach(onChange)
           }}
         />
-        | Boolean({ value, onChange}) =>
-          <label>
-            <input type_="checkbox" id={props.id} checked={value} onChange={ev => {
+      | Boolean({value, onChange}) =>
+        <label>
+          <input
+            type_="checkbox"
+            id={props.id}
+            checked={value}
+            onChange={ev => {
               let target = ev->JsxEvent.Form.target
               target["checked"]->onChange
-            }} />
-            <span></span>
-          </label>
+            }}
+          />
+          <span />
+        </label>
+      | Choice({value, onChange, items}) =>
+        let onChange = ev => {
+          let target = ev->ReactEvent.Form.target
+          if target["checked"] {
+            onChange(target["value"])
+          }
+        }
+        <div className="choice">
+          {items
+          ->Array.mapWithIndex(({label, value: v}, idx) => {
+            let id = `${props.id}-${Int.toString(idx)}`
+            <label htmlFor={id} key={id}>
+              {React.string(label)}
+              <input
+                {...inputProps}
+                type_="radio"
+                id={id}
+                name={props.id}
+                value={v}
+                checked={value === v}
+                onChange
+              />
+            </label>
+          })
+          ->React.array}
+        </div>
       }}
     </div>
   }

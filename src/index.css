@@ -78,18 +78,18 @@ body {
 }
 
 h1 {
-    margin-bottom: var(--spacing-400);
+  margin-bottom: var(--spacing-400);
 }
 
 form {
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-300);
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
 
-    & button {
-        align-self: flex-end;
-    }
+  & button {
+    align-self: flex-end;
+  }
 }
 
 code {
@@ -99,92 +99,136 @@ code {
 
 /* Styles to copy */
 .form-control {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-200);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
 
-    & label {
-        font-size: var(--font-200);
-        font-weight: 600;
+  & label {
+    font-size: var(--font-200);
+    font-weight: 600;
+  }
+
+  & input {
+    border: 1px solid var(--dark-200);
+    font-size: var(--font-200);
+    padding: var(--spacing-100) var(--spacing-200);
+    border-radius: var(--radius);
+
+    &:focus {
+      outline-color: var(--primary-700);
+    }
+  }
+
+  /* toggle checkbox */
+  & label:has(input[type="checkbox"]) {
+    --width: 56px;
+    --height: 28px;
+    --offset: 4px;
+    --speed: 166ms;
+    width: var(--width);
+    height: var(--height);
+    position: relative;
+    border-radius: calc(var(--width) / 4);
+    cursor: pointer;
+    transition: var(--speed) all ease-in;
+
+    &:has(input:checked) {
+      background-color: var(--primary-700);
+
+      & span {
+        left: calc(var(--width) - var(--height) + var(--offset));
+      }
+    }
+
+    &:not(:has(input:checked)) {
+      background-color: var(--dark-200);
+    }
+
+    & span {
+      width: calc(var(--height) - var(--offset) - var(--offset));
+      height: calc(var(--height) - var(--offset) - var(--offset));
+      top: var(--offset);
+      left: var(--offset);
+      position: absolute;
+      border-radius: 50%;
+      background-color: var(--white);
+      transition: var(--speed) all;
     }
 
     & input {
-        border: 1px solid var(--dark-200);
-        font-size: var(--font-200);
-        padding: var(--spacing-100) var(--spacing-200);
-        border-radius: var(--radius);
-
-        &:focus {
-           outline-color: var(--primary-700); 
-        }
-    }
-
-    /* toggle checkbox */
-    & label:has(input[type=checkbox]) {
-      --width: 60px;
-      --height: 30px;
-      --offset: 4px;
-      --speed: 166ms;
-      width: var(--width);
-      height: var(--height);
-      position: relative;
-      border-radius: calc(var(--width) / 4);
+      width: 100%;
+      height: 100%;
+      display: block;
+      opacity: 0;
       cursor: pointer;
-      transition: var(--speed) all;
+    }
+  }
 
-      &:has(input:checked) {
-        background-color: var(--primary-700);
+  & .choice {
+    display: flex;
 
-        & span {
-          left:  calc(var(--width) - var(--height) + var(--offset));
-        }
+    & label {
+      padding: var(--spacing-100) var(--spacing-200);
+      background-color: var(--dark-50);
+      border-right: 1px solid var(--dark-200);
+      border-top: 1px solid var(--dark-200);
+      border-bottom: 1px solid var(--dark-200);
+      text-align: center;
+      display: block;
+      cursor: pointer;
+
+      &:first-of-type {
+        border-radius: var(--radius) 0 0 var(--radius);
+        border-left: 1px solid var(--dark-200);
       }
 
-      &:not(:has(input:checked)) {
-        background-color: var(--dark-200);
-      }
-
-      & span {
-        width: calc(var(--height) - var(--offset) - var(--offset));
-        height: calc(var(--height) - var(--offset) - var(--offset));
-        top: var(--offset);
-        left: var(--offset);
-        position: absolute;
-        border-radius: 50%;
-        background-color: var(--white);
-        transition: var(--speed) all;
+      &:last-of-type {
+        border-radius: 0 var(--radius) var(--radius) 0;
       }
 
       & input {
-        width: 100%;
-        height: 100%;
-        display: block;
-        opacity: 0;
-        cursor: pointer;
+        display: none;
+      }
+
+      &:has(input:checked) {
+        outline: 2px solid var(--primary-700);
+        background-color: var(--primary-200);
+        border: none;
+        z-index: 2;
+        box-shadow:
+          var(--white) 0 0 0 0,
+          var(--primary) 0 0 0 2px,
+          transparent 0 0 0 0;
+      }
+
+      &:hover {
+        background-color: var(--primary-100);
       }
     }
+  }
 }
 
 button {
-    padding: var(--spacing-100) var(--spacing-200);
-    background-color: var(--dark-50);
-    border-radius: var(--radius);
-    border: none;
-    outline: 2px solid var(--dark-300);
-    cursor: pointer;
+  padding: var(--spacing-100) var(--spacing-200);
+  background-color: var(--dark-50);
+  border-radius: var(--radius);
+  border: none;
+  outline: 2px solid var(--dark-300);
+  cursor: pointer;
 
-    &:focus {
-        outline: 2px solid var(--primary-700); 
-    }
+  &:focus {
+    outline: 2px solid var(--primary-700);
+  }
 
-    &:hover {
-        background-color: var(--dark-100);
-    }
+  &:hover {
+    background-color: var(--dark-100);
+  }
 
-    &[type='submit'] {
-        background-color: var(--primary-800);
-        color: var(--white);
-        outline-color: var(--primary-300);
-    }
+  &[type="submit"] {
+    background-color: var(--primary-800);
+    color: var(--white);
+    outline-color: var(--primary-300);
+  }
 }
+
 /* End copyable */
