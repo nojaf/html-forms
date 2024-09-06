@@ -32,10 +32,10 @@ function rescriptPlugin() {
     },
     buildStart: async function () {
       if (command === "build") {
-        logger.info(execSync("rescript").toString().trim());
+        logger.info(execSync("rewatch").toString().trim());
       } else {
-        rescriptProcressRef = spawn("rescript", ["-w"]);
-        logger.info(`Spawned bunx rescript -w`);
+        rescriptProcressRef = spawn("rewatch", ["watch"]);
+        logger.info(`Spawned bunx rewatch watch`);
 
         // Process standard output
         rescriptProcressRef.stdout.on("data", (data) => {

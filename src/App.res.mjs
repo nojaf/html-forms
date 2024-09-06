@@ -18,18 +18,16 @@ function tryParseRace(v, fallback) {
 }
 
 function App(props) {
-  let match = React.useState(function () {
-    return {
-      name: "",
-      birthYear: 1990,
-      password: "",
-      breakfast: true,
-      race: "TenMiles"
-    };
-  });
+  let match = React.useState(() => ({
+    name: "",
+    birthYear: 1990,
+    password: "",
+    breakfast: true,
+    race: "TenMiles"
+  }));
   let setData = match[1];
   let data = match[0];
-  let onSubmit = function (ev) {
+  let onSubmit = ev => {
     ev.preventDefault();
     console.log(data);
   };
@@ -48,17 +46,13 @@ function App(props) {
             formValue: {
               TAG: "Text",
               value: data.name,
-              onChange: (function (v) {
-                setData(function (d) {
-                  return {
-                    name: v,
-                    birthYear: d.birthYear,
-                    password: d.password,
-                    breakfast: d.breakfast,
-                    race: d.race
-                  };
-                });
-              })
+              onChange: v => setData(d => ({
+                name: v,
+                birthYear: d.birthYear,
+                password: d.password,
+                breakfast: d.breakfast,
+                race: d.race
+              }))
             },
             id: "name",
             labelText: "Naam"
@@ -71,17 +65,13 @@ function App(props) {
             formValue: {
               TAG: "Int",
               value: data.birthYear,
-              onChange: (function (v) {
-                setData(function (d) {
-                  return {
-                    name: d.name,
-                    birthYear: v,
-                    password: d.password,
-                    breakfast: d.breakfast,
-                    race: d.race
-                  };
-                });
-              })
+              onChange: v => setData(d => ({
+                name: d.name,
+                birthYear: v,
+                password: d.password,
+                breakfast: d.breakfast,
+                race: d.race
+              }))
             },
             id: "birthYear",
             labelText: "Geboorte jaar"
@@ -90,17 +80,13 @@ function App(props) {
             formValue: {
               TAG: "Boolean",
               value: data.breakfast,
-              onChange: (function (v) {
-                setData(function (d) {
-                  return {
-                    name: d.name,
-                    birthYear: d.birthYear,
-                    password: d.password,
-                    breakfast: v,
-                    race: d.race
-                  };
-                });
-              })
+              onChange: v => setData(d => ({
+                name: d.name,
+                birthYear: d.birthYear,
+                password: d.password,
+                breakfast: v,
+                race: d.race
+              }))
             },
             id: "alive",
             labelText: "Do you want breakfast?"
@@ -123,17 +109,13 @@ function App(props) {
                   label: "Wandelen"
                 }
               ],
-              onChange: (function (r) {
-                setData(function (d) {
-                  return {
-                    name: d.name,
-                    birthYear: d.birthYear,
-                    password: d.password,
-                    breakfast: d.breakfast,
-                    race: tryParseRace(r, data.race)
-                  };
-                });
-              })
+              onChange: r => setData(d => ({
+                name: d.name,
+                birthYear: d.birthYear,
+                password: d.password,
+                breakfast: d.breakfast,
+                race: tryParseRace(r, data.race)
+              }))
             },
             id: "race",
             labelText: "Wedstrijd"

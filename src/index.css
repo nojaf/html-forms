@@ -228,6 +228,14 @@ button {
     background-color: var(--primary-800);
     color: var(--white);
     outline-color: var(--primary-300);
+
+    &:hover {
+      background-color: var(--primary-700);
+    }
+
+    &:focus {
+      background-color: var(--primary-900);
+    }
   }
 }
 
