@@ -17,6 +17,7 @@ type formData = {
   password: string,
   breakfast: bool,
   race: race,
+  remark: string,
 }
 
 @react.component
@@ -27,6 +28,7 @@ let make = () => {
     password: "",
     breakfast: true,
     race: TenMiles,
+    remark: "",
   })
 
   let onSubmit = (ev: ReactEvent.Form.t) => {
@@ -89,6 +91,15 @@ let make = () => {
               value: (Walking :> string),
             },
           ],
+        })}
+      />
+      <FormControl
+        id="remark"
+        labelText="Opmerking"
+        formValue={Text({
+          type_: Textarea,
+          value: data.remark,
+          onChange: v => setData(d => {...d, remark: v}),
         })}
       />
       <button type_="submit"> {React.string(`Submit`)} </button>

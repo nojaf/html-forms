@@ -10,7 +10,8 @@
     "res:dev": "rescript -w",
     "dev": "bunx --bun vite",
     "build": "bunx --bun vite build",
-    "preview": "bunx --bun vite preview"
+    "preview": "bunx --bun vite preview",
+    "format": "rescript format -all && prettier src/*.css -w"
   },
   "dependencies": {
     "@rescript/core": "1.5.2",

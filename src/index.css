@@ -108,7 +108,8 @@ code {
     font-weight: 600;
   }
 
-  & input {
+  & input,
+  textarea {
     border: 1px solid var(--dark-200);
     font-size: var(--font-200);
     padding: var(--spacing-100) var(--spacing-200);

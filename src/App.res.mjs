@@ -23,7 +23,8 @@ function App(props) {
     birthYear: 1990,
     password: "",
     breakfast: true,
-    race: "TenMiles"
+    race: "TenMiles",
+    remark: ""
   }));
   let setData = match[1];
   let data = match[0];
@@ -51,7 +52,8 @@ function App(props) {
                 birthYear: d.birthYear,
                 password: d.password,
                 breakfast: d.breakfast,
-                race: d.race
+                race: d.race,
+                remark: d.remark
               }))
             },
             id: "name",
@@ -70,7 +72,8 @@ function App(props) {
                 birthYear: v,
                 password: d.password,
                 breakfast: d.breakfast,
-                race: d.race
+                race: d.race,
+                remark: d.remark
               }))
             },
             id: "birthYear",
@@ -85,7 +88,8 @@ function App(props) {
                 birthYear: d.birthYear,
                 password: d.password,
                 breakfast: v,
-                race: d.race
+                race: d.race,
+                remark: d.remark
               }))
             },
             id: "alive",
@@ -114,11 +118,29 @@ function App(props) {
                 birthYear: d.birthYear,
                 password: d.password,
                 breakfast: d.breakfast,
-                race: tryParseRace(r, data.race)
+                race: tryParseRace(r, data.race),
+                remark: d.remark
               }))
             },
             id: "race",
             labelText: "Wedstrijd"
+          }),
+          JsxRuntime.jsx(FormControl.FormControl.make, {
+            formValue: {
+              TAG: "Text",
+              value: data.remark,
+              type_: "Textarea",
+              onChange: v => setData(d => ({
+                name: d.name,
+                birthYear: d.birthYear,
+                password: d.password,
+                breakfast: d.breakfast,
+                race: d.race,
+                remark: v
+              }))
+            },
+            id: "remark",
+            labelText: "Opmerking"
           }),
           JsxRuntime.jsx("button", {
             children: "Submit",

@@ -3,8 +3,18 @@ type choiceItem = {
   label: string,
 }
 
+type textType =
+  | Text
+  | Password
+  | Email
+  | Textarea
+
+let textTypeAsString = (tt: textType) => {
+  (tt :> string)
+}
+
 type formValue =
-  | Text({value: string, type_?: string, onChange: string => unit})
+  | Text({value: string, type_?: textType, onChange: string => unit})
   | Int({value: int, onChange: int => unit})
   | Boolean({value: bool, onChange: bool => unit})
   | Choice({value: string, items: array<choiceItem>, onChange: string => unit})
@@ -27,22 +37,34 @@ module FormControl = {
       | Some(labelText) => <label htmlFor={props.id}> {React.string(labelText)} </label>
       }}
       {switch props.formValue {
-      | Text({value, onChange}) =>
-        let type_ = switch props.formValue {
-        | Text({type_}) => type_
-        | _ => "text"
+      | Text({value, onChange} as textProps) =>
+        switch textProps.type_ {
+        | Some(Textarea) =>
+          <textarea
+            {...inputProps}
+            id={props.id}
+            name={props.id}
+            value={value}
+            onChange={ev => {
+              let target = ev->JsxEvent.Form.target
+              onChange(target["value"])
+            }}
+          />
+        | _ =>
+          let type_ = textProps.type_->Option.map(textTypeAsString)->Option.getOr("text")
+
+          <input
+            {...inputProps}
+            id={props.id}
+            name={props.id}
+            type_
+            value={value}
+            onChange={ev => {
+              let target = ev->JsxEvent.Form.target
+              onChange(target["value"])
+            }}
+          />
         }
-        <input
-          {...inputProps}
-          id={props.id}
-          name={props.id}
-          type_
-          value={value}
-          onChange={ev => {
-            let target = ev->JsxEvent.Form.target
-            onChange(target["value"])
-          }}
-        />
       | Int({value, onChange}) =>
         <input
           {...inputProps}
